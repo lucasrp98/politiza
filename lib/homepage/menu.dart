@@ -10,21 +10,32 @@ class menuInicial extends StatefulWidget {
 class _menuInicialState extends State<menuInicial> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [menuPrincipal()],
+    return Stack(
+      children: [menuPrincipal(), textoMenu()],
     );
   }
 
   Widget menuPrincipal() {
     return Container(
-      height: 35,
-      padding: const EdgeInsets.only(left: 20, right: 0),
-      child: Row(
-        children: [
-           const Text('Texto Padrão'),
-           const Text('Texto Padrão 02'),
-        ],
+      height: 200,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: Color.fromRGBO(35, 60, 103, 1),
       ),
     );
+  }
+
+  Widget textoMenu() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        const Text(
+          'Texto Padrão',
+        ),
+        const Text(
+          'Texto Padrão 02',
+        ),
+      ],
+    ); //   }
   }
 }

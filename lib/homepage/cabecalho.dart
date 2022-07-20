@@ -10,20 +10,21 @@ class telaCabecalho extends StatefulWidget {
 class _telaCabecalhoState extends State<telaCabecalho> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [imagemCabecalho(), textoCabecalho()],
     );
   }
 
   Widget textoCabecalho(){
-    return Text("Prefeitura Municipal de Camaquã");
+    return Text("Prefeitura Municipal de Camaquã",);
   }
 
   Widget imagemCabecalho(){
     return GestureDetector(
       child:  Image.network(
         "https://www.camaquar.instarbr.com.br/imgeditor/brasao.jpg",
-        width: 20,
+        width: 50,
       ),
     );
   } 
