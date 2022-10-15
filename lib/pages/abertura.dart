@@ -23,7 +23,7 @@ class _telaAberturaState extends State<telaAbertura> {
             heightFactor: 13,
             child: Text(
               "Bem-Vindo ao Politiza",
-              style: TextStyle(fontSize: 30, color: Colors.purple),
+              style: TextStyle(fontSize: 30, color: Colors.black),
             ),
           ),
         ],

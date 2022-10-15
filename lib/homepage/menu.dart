@@ -20,22 +20,42 @@ class _menuInicialState extends State<menuInicial> {
       height: 200,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
-        color: Color.fromRGBO(35, 60, 103, 1),
+        color: Colors.grey,
       ),
     );
   }
 
   Widget textoMenu() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Column(
       children: [
-        const Text(
-          'Texto Padrão',
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Text(
+              "Cham. Abertos",
+              style: TextStyle(color: Colors.black, fontSize: 20),
+            ),
+            const Text(
+              "Cham. Encerrados",
+              style: TextStyle(color: Colors.black, fontSize: 20),
+            ),
+          ],
         ),
-        const Text(
-          'Texto Padrão 02',
-        ),
+        const Divider(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Text(
+              " 0 ",
+              style: TextStyle(color: Colors.black, fontSize: 50),
+            ),
+            const Text(
+              " 0 ",
+              style: TextStyle(color: Colors.black, fontSize: 50),
+            ),
+          ],
+        )
       ],
-    ); //   }
+    );
   }
 }

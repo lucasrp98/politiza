@@ -1,7 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
+import 'package:politiza/homepage/cabecalho.dart';
 import 'package:politiza/homepage/paginicial.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:politiza/pages/atualiza.dart';
+import 'package:politiza/pages/cadastro.dart';
+import 'package:politiza/pages/persistencia.dart';
+import 'package:politiza/pages/model.dart';
+import 'package:politiza/pages/cidadaoHelper.dart';
+import 'package:politiza/pages/sistema.dart';
 
 class telaLogin extends StatefulWidget {
   const telaLogin({Key? key}) : super(key: key);
@@ -11,71 +18,189 @@ class telaLogin extends StatefulWidget {
 }
 
 class _telaLoginState extends State<telaLogin> {
-  GlobalKey<FormState> _chaveForm = GlobalKey<FormState>();
-  TextEditingController _userController = TextEditingController();
-  TextEditingController _senhaController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _usuarioController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
+  final Map<String, String> _formData = {};
+
+  // PersistenciaArquivoJson paj = PersistenciaArquivoJson();
+  cidadaoHelper banco = cidadaoHelper();
+
   @override
-  campoDeTexto(TextEditingController controller, String label) {
-    return TextFormField(
-      controller: controller,
-      autofocus: true,
-      style: new TextStyle(color: Colors.purple, fontSize: 20),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: TextStyle(color: Colors.purple, fontSize: 20),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: barraSuperior(),
+      body: corpo(),
+    );
+  }
+
+  barraSuperior() {
+    return AppBar(
+      title: Text("Login"),
+    );
+  }
+
+  corpo() {
+    return Column(
+      children: [cardFormulario(), listaCidadaos()],
+    );
+  }
+
+  cardFormulario() {
+    return Card(
+      margin: EdgeInsets.all(15),
+      child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              campoDados(_usuarioController, "Usuário",
+                  "Informe o nome de usuário", Icons.person_add, false),
+              campoDados(_senhaController, "Senha", "Informe uma senha",
+                  Icons.lock_rounded, true),
+              botaoLogin(),
+              botaoRegistro(),
+            ],
+          )),
+    );
+  }
+
+  campoDados(TextEditingController controller, String label, String hint,
+      IconData icone, bool isSenha) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15),
+      child: TextFormField(
+        style: TextStyle(color: Colors.green[900]),
+        controller: controller,
+        obscureText: isSenha,
+        decoration: InputDecoration(
+          icon: Icon(
+            icone,
+            color: Colors.grey,
+          ),
+          hintText: hint,
+          labelText: label,
+          labelStyle: TextStyle(color: Colors.grey),
+        ),
+        validator: (String? value) {
+          return (value == null || value.isEmpty) ? 'Campo obrigatório' : null;
+        },
       ),
-      validator: (texto) {
-        if (texto!.isEmpty) {
-          return "Campo obrigatório!";
-        }
+    );
+  }
+
+  botaoLogin() {
+    return Container(
+      padding: const EdgeInsets.only(),
+      child: ElevatedButton.icon(
+        icon: Icon(Icons.login_rounded),
+        label: Text(
+          "Login",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        onPressed: () async {
+          if (_formKey.currentState!.validate()) {
+            sistema.cidadaoLogado = await cidadaoHelper()
+                .login(_usuarioController.text, _senhaController.text);
+            if (sistema.cidadaoLogado.id == 0) {
+            } else {
+              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (builder) => const pagInicial()));
+            }
+          }
+        },
+      ),
+    );
+  }
+
+  botaoRegistro() {
+    return Container(
+      padding: const EdgeInsets.only(),
+      child: ElevatedButton.icon(
+        icon: Icon(Icons.app_registration_rounded),
+        label: Text(
+          "Registra-se",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+          Navigator.push(context,
+          MaterialPageRoute(builder: (builder) => const telaCadastrado()));
+        },
+      ),
+    );
+  }
+
+   listaCidadaos() {
+    return Expanded(
+        child: Card(
+      margin: const EdgeInsets.all(15),
+      child: FutureBuilder<List<Cidadao>>(
+          future: carregarListaCidadaos(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return montarListaCidadaos(snapshot.data!);
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          }),
+    ));
+  }
+
+  montarListaCidadaos(List<Cidadao> cidadaos) {
+    return ListView.builder(
+      itemCount: cidadaos.length,
+      itemBuilder: (context, index) {
+        return itemDaLista(cidadaos[index], index);
       },
     );
   }
 
-  final Future <SharedPreferences> _prefs = SharedPreferences.getInstance();
-
-  Future <void> _registroUser() async{
-    final SharedPreferences prefs = await _prefs;
-    prefs.setString ('usuario' , _userController.text);
+  itemDaLista(Cidadao cidadaos, int indice) {
+    return ListTile(
+      leading: Icon(Icons.person),
+      title: Text(
+        cidadaos.nome,
+        style: const TextStyle(fontSize: 20),
+      ),
+      trailing: Wrap(spacing: 12, children: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.restore_from_trash, color: Colors.red),
+          onPressed: () {
+            setState(() {
+              // paj.removerCidadao(indice);
+              print(indice);
+            });
+          },
+        ),
+        IconButton(
+          icon: const Icon(Icons.edit, color: Colors.red),
+          onPressed: () {
+            setState(() {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (builder) => editaCidadao(
+                            cidadao: cidadaos,
+                            index: indice,
+                          )));
+            });
+          },
+        ),
+      ]),
+    );
   }
 
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Login"),
-      ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _chaveForm,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              campoDeTexto(_userController, "Login"),
-              Divider(),
-              campoDeTexto(_senhaController, "Senha"),
-              Divider(),
-              ButtonTheme(
-                height: 60.0,
-                child: ElevatedButton(
-                  child: Text( "Entrar", style: TextStyle(color: Colors.white, fontSize: 20),),
-                  onPressed: () => {
-                    if (_chaveForm.currentState!.validate())
-                      {
-                        print("Campo obrigatorio"),
-                        Navigator.pop(context),
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (builder) => pagInicial()))
-                      }
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  Future<List<Cidadao>> carregarListaCidadaos() async {
+    List<Cidadao> lista = [];
+
+    await Future.delayed(const Duration(seconds: 3));
+
+    // lista = await paj.lerCidadaos();
+
+    // lista = await banco.consultarTodos();
+
+    return lista;
   }
 }
