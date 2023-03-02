@@ -8,7 +8,7 @@ ao poder público, com a intenção de que os mesmos coletem os dados
 desses incidentes e elaborem um plano de ação para a resolução desses
 incidentes.! 🚀</p>
 
-<img src="https://img.shields.io/static/v1?label=Flutter&message=Politiza-Stress&color=7159c1&style=for-the-badge&logo=ghost"/>
+<img src="https://img.shields.io/static/v1?label=Flutter&message=Politiza&color=7159c1&style=for-the-badge&logo=ghost"/>
 
 ### Pré-requisitos
 
@@ -40,32 +40,32 @@ Tela de Abertura: Nesta tela o aplicativo é inicializado e fica por período de
 aplicativo.
 
 <h1 align="center">
-  <img alt="NextLevelWeek" title="#NextLevelWeek" src="./images/abertura.png" width="800" height="1000"/>
+  <img alt="NextLevelWeek" title="#NextLevelWeek" src="./images/abertura.png" width="250"/>
 </h1>
 
 Tela de Cadastro: Nessa tela o usuário, será realizada a inserção dos dados do usuário e os mesmos
 serão armazenados de forma local.
 
 <h1 align="center">
-  <img alt="NextLevelWeek" title="#NextLevelWeek" src="./images/cadastro.png" width="800" height="1000"/>
+  <img alt="NextLevelWeek" title="#NextLevelWeek" src="./images/cadastro.png" width="250"/>
 </h1>
 
 Tela de Login: Neste tela e se realiza a consulta no banco de dados local para averiguar se o usuário está cadastrado.
 
 <h1 align="center">
-  <img alt="NextLevelWeek" title="#NextLevelWeek" src="./images/login.png" width="800" height="1000"/>
+  <img alt="NextLevelWeek" title="#NextLevelWeek" src="./images/login.png" width="250"/>
 </h1>
 
 Tela Inicial: Essa tela redireciona os usuários a todas funcionalidades do aplicativo. 
 
 <h1 align="center">
-  <img alt="NextLevelWeek" title="#NextLevelWeek" src="./images/pag-inicial.png" width="800" height="1000"/>
+  <img alt="NextLevelWeek" title="#NextLevelWeek" src="./images/pag-inicial.png" width="250"/>
 </h1>
 
 Tela de Atualização: Nesta tela temos o mesmo layout da tela de atualização. Nela é possível alterar qualquer campo do usuário.
 
 <h1 align="center">
-  <img alt="NextLevelWeek" title="#NextLevelWeek" src="./images/atualizacao.png" width="800" height="1000"/>
+  <img alt="NextLevelWeek" title="#NextLevelWeek" src="./images/atualizacao.png" width="250"/>
 </h1>
 
 
